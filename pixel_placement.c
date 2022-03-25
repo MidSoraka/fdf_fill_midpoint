@@ -6,7 +6,7 @@
 /*   By: vlaine <vlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 13:45:29 by vlaine            #+#    #+#             */
-/*   Updated: 2022/03/25 06:37:04 by vlaine           ###   ########.fr       */
+/*   Updated: 2022/03/25 07:07:28 by vlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,12 +220,43 @@ static void left_right(int x, int y, t_params *params)
 	int mid_r[3];
 	int middle[3];
 	int ptr1[3];
+	int left2[3];
+	int topleft2[3];
+	int topright2[3];
+	int right2[3];
 	index = 25;
 
 	ft_middle(x, y, middle, params);
 	copy(left, right, x, y, params);
 	rotation_matrices(middle, params, ptr1);
 	recursive_check(left, right, ptr1, params);
+
+	left2[0] = params->coord[y][x - 1][0] * 25;
+	left2[1] = params->coord[y][x - 1][1] * 25;
+	left2[2] = params->coord[y][x - 1][2] * 10;
+
+	topleft2[0] = params->coord[y - 1][x - 1][0] * 25;
+	topleft2[1] = params->coord[y - 1][x - 1][1] * 25;
+	topleft2[2] = params->coord[y - 1][x - 1][2] * 10;
+	recursive_check(topleft2, left2, ptr1, params);
+
+	topright2[0] = params->coord[y - 1][x][0] * 25;
+	topright2[1] = params->coord[y - 1][x][1] * 25;
+	topright2[2] = params->coord[y - 1][x][2] * 10;
+
+	topleft2[0] = params->coord[y - 1][x - 1][0] * 25;
+	topleft2[1] = params->coord[y - 1][x - 1][1] * 25;
+	topleft2[2] = params->coord[y - 1][x - 1][2] * 10;
+	recursive_check(topleft2, topright2, ptr1, params);
+
+	topright2[0] = params->coord[y - 1][x][0] * 25;
+	topright2[1] = params->coord[y - 1][x][1] * 25;
+	topright2[2] = params->coord[y - 1][x][2] * 10;
+
+	right2[0] = params->coord[y][x][0] * 25;
+	right2[1] = params->coord[y][x][1] * 25;
+	right2[2] = params->coord[y][x][2] * 10;
+	recursive_check(topright2, right2, ptr1, params);
 }
 static void fill_image(t_params *params)
 {
@@ -262,10 +293,10 @@ static void fill_image(t_params *params)
 
 void pixel_placement(t_params *params)
 {
-	params->color = 2147483647;
-	draw_image(params);
 	params->color = 0;
 	fill_image(params);
+	params->color = 2147483647;
+	draw_image(params);
 }
 
 /*

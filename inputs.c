@@ -6,7 +6,7 @@
 /*   By: vlaine <vlaine@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 17:40:32 by vlaine            #+#    #+#             */
-/*   Updated: 2022/03/25 06:30:53 by vlaine           ###   ########.fr       */
+/*   Updated: 2022/03/25 06:54:12 by vlaine           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ int draw_extra_line(void *params)
 int exit_window(int key, void *params)
 {
 	t_params *local;
+	t_mlx *mlx;
 
 	local = ((t_params *)params);
+	mlx = local->mlx;
 	if (key == 31)
 		local->alpha += 5;
 	if (key == 34)
@@ -58,6 +60,9 @@ int exit_window(int key, void *params)
 	}
 	if (key == 53)
 		exit(0);
+	bzero(mlx->image_add, local->win_x * local->win_y * sizeof(int));
+	pixel_placement(local);
+	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->image_ptr, 0, 0);
 	//printf("\nalpha is %f\nbeta is %f\n", local->alpha, local->beta);
 	return (0);
 }
